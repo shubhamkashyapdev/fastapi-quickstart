@@ -1,0 +1,17 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+starlette = "*"
+uvicorn = "*"
+python-socketio = "*"
+websockets = "*"
+fastapi = "==0.89.1"
+sqlalchemy = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.11"
