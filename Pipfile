@@ -9,7 +9,7 @@ uvicorn = "*"
 python-socketio = "*"
 websockets = "*"
 fastapi = "==0.89.1"
-sqlalchemy = "*"
+sqlalchemy = "==2.0.1"
 
 [dev-packages]
 

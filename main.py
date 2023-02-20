@@ -2,4 +2,4 @@ import uvicorn
 
 
 if __name__ == '__main__':
-    uvicorn.run('server.app:app', reload=True)
+    uvicorn.run('app:app', reload=True)

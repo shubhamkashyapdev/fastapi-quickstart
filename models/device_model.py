@@ -1,5 +1,5 @@
 from sqlalchemy import Boolean, Column, Integer 
-from server.db.db import Base 
+from db.db import Base
 
 class DeviceModel(Base):
     __tablename__ = 'device'

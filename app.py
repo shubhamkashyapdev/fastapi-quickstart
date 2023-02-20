@@ -1,10 +1,22 @@
 from fastapi import FastAPI, Depends
 from fastapi.middleware.cors import CORSMiddleware
-from server.db.db import get_db
 from sqlalchemy.orm import Session
-from server.sockets.socket import io
-from server.schemas.device_schema import Device
-from server.models.device_model import DeviceModel
+from sockets.socket import io
+from schemas.device_schema import Device
+from models.device_model import DeviceModel
+
+from db.db import Base, SessionLocal, engine
+
+Base.metadata.create_all(bind=engine)
+
+# Dependency
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
+
 app = FastAPI()
 
 app.add_middleware(CORSMiddleware, allow_origins=['*'], allow_credentials=True,
@@ -18,10 +30,10 @@ async def health_check(db: Session = Depends(get_db)):
 
 @app.get('/device')
 async def get_all_device(db: Session = Depends(get_db)):
-    return db.query()
+    return db.query(DeviceModel).all()
 
 @app.post('/device')
-async def create_device(db: Session = Depends(get_db), input = Device):
+async def create_device(input: Device, db: Session = Depends(get_db)):
     device = DeviceModel(
         is_device_on=True,
         device_count=100
@@ -29,13 +41,7 @@ async def create_device(db: Session = Depends(get_db), input = Device):
     db.add(device)
     db.commit()
     db.refresh(device)
-    print(device.device_count)
-    # device = DeviceModel(is_device_on=input.is_device_on, device_count=input.device_count)
-    # print(device)
-    # db.add(device)
-    # db.commit()
-    # db.refresh(device)
-    return 'trying to make it work'
+    return device
 
 
 
